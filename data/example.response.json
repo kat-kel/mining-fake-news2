@@ -1,0 +1,169 @@
+{
+    "data": [
+        {
+            "id": "",
+            "title": "title of article",
+            "link": "https://defacto-observatoire.fr",
+            "channel": {
+                "id": "Medias/Factuel",
+                "name": "Factuel - AFP",
+                "url": "https://factuel.afp.com/"
+            },
+            "chapeau": "<p></p>",
+            "published": "2022-09-07T18:05:55.19+02:00",
+            "authors": "list of authors",
+            "themes": [
+                "Santé"
+            ],
+            "tags": null,
+            "medias": [
+                {
+                    "url": "https://defacto-observatoire.fr"
+                }
+            ],
+            "claim-review": {
+                "@context": "https://schema.org",
+                "@type": "ClaimReview",
+                "url": "https://defacto-observatoire.fr",
+                "datePublished": "2022-09-07T18:05:55.19+02:00",
+                "author": {
+                    "type": "Organization",
+                    "name": "list of authors"
+                },
+                "claimReviewed": "title of article",
+                "itemReviewed": {
+                    "@type": "Claim",
+                    "author": {
+                        "@type": "Person",
+                        "name": "Sources multiples"
+                    },
+                    "datePublished": 1660168800000,
+                    "appearance": {
+                        "url": "https://twitter.com/nc_vert/status/1566657509254844416",
+                        "headline": ""
+                    }
+                },
+                "reviewRating": {
+                    "@type": "Rating",
+                    "ratingValue": "1",
+                    "bestRating": "5",
+                    "worstRating": "1",
+                    "alternateName": "Trompeur"
+                }
+            },
+            "original-url": "https://twitter.com/nc_vert/status/1566657509254844416",
+            "body": "<div><p></p></div>"
+        },
+        {
+            "id": "",
+            "title": "title of article",
+            "link": "https://defacto-observatoire.fr",
+            "channel": {
+                "id": "Medias/Factuel",
+                "name": "Factuel - AFP",
+                "url": "https://factuel.afp.com/"
+            },
+            "chapeau": "<p></p>",
+            "published": "2022-09-07T18:05:55.19+02:00",
+            "authors": "list of authors",
+            "themes": [
+                "Santé"
+            ],
+            "tags": null,
+            "medias": [
+                {
+                    "url": "https://defacto-observatoire.fr"
+                }
+            ],
+            "claim-review": {
+                "@context": "https://schema.org",
+                "@type": "ClaimReview",
+                "url": "https://defacto-observatoire.fr",
+                "datePublished": "2022-09-07T18:05:55.19+02:00",
+                "author": {
+                    "type": "Organization",
+                    "name": "list of authors"
+                },
+                "claimReviewed": "title of article",
+                "itemReviewed": {
+                    "@type": "Claim",
+                    "author": {
+                        "@type": "Person",
+                        "name": "Sources multiples"
+                    },
+                    "datePublished": 1660168800000,
+                    "appearance": {
+                        "url": "https://www.theepochtimes.com/exclusive-former-greenpeace-founder-patrick-moore-debunks-the-false-narratives-of-climate-change_4709568.html",
+                        "headline": ""
+                    }
+                },
+                "reviewRating": {
+                    "@type": "Rating",
+                    "ratingValue": "1",
+                    "bestRating": "5",
+                    "worstRating": "1",
+                    "alternateName": "Trompeur"
+                }
+            },
+            "original-url": "https://www.theepochtimes.com/exclusive-former-greenpeace-founder-patrick-moore-debunks-the-false-narratives-of-climate-change_4709568.html",
+            "body": "<div><p></p></div>"
+        },
+        {
+            "id": "",
+            "title": "title of article",
+            "link": "https://defacto-observatoire.fr",
+            "channel": {
+                "id": "Medias/Factuel",
+                "name": "Factuel - AFP",
+                "url": "https://factuel.afp.com/"
+            },
+            "chapeau": "<p></p>",
+            "published": "2022-09-07T18:05:55.19+02:00",
+            "authors": "list of authors",
+            "themes": [
+                "Santé"
+            ],
+            "tags": null,
+            "medias": [
+                {
+                    "url": "https://defacto-observatoire.fr"
+                }
+            ],
+            "claim-review": {
+                "@context": "https://schema.org",
+                "@type": "ClaimReview",
+                "url": "https://defacto-observatoire.fr",
+                "datePublished": "2022-09-07T18:05:55.19+02:00",
+                "author": {
+                    "type": "Organization",
+                    "name": "list of authors"
+                },
+                "claimReviewed": "title of article",
+                "itemReviewed": {
+                    "@type": "Claim",
+                    "author": {
+                        "@type": "Person",
+                        "name": "Sources multiples"
+                    },
+                    "datePublished": 1660168800000,
+                    "appearance": {
+                        "url": "https://www.facebook.com/marie.dubois.79/posts/8131151136925106",
+                        "headline": ""
+                    }
+                },
+                "reviewRating": {
+                    "@type": "Rating",
+                    "ratingValue": "1",
+                    "bestRating": "5",
+                    "worstRating": "1",
+                    "alternateName": "Trompeur"
+                }
+            },
+            "original-url": "https://www.facebook.com/marie.dubois.79/posts/8131151136925106",
+            "body": "<div><p></p></div>"
+        }
+    ],
+    "meta": {
+        "schema": "0.1"
+    }
+}
