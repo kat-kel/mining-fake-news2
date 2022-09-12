@@ -4,7 +4,7 @@ from ural import get_domain_name
 import os
 
 from src_data_collect import request_data, load_data, extract_url, clean_urls
-from configure_data import URLs
+from configure_data import TestData
 
 TESTDATA_FILENAME = os.path.join('data', 'example.response.json')
 yellow = "\033[1;33m"
@@ -21,7 +21,7 @@ class Test_Request(unittest.TestCase):
         super(Test_Request, self).__init__(source)
         print(f"\n{yellow}Setting up Tests...{end}")
         print("Getting data...")
-        setup_data = URLs()
+        setup_data = TestData()
         self.source = setup_data.get_data_source_url_from_config()
     
     @unittest.skipIf(no_access,"skip")
