@@ -2,7 +2,7 @@ import unittest
 import os
 import tracemalloc
 
-from configure_data import URLs
+from configure_data import TestData
 from src_multithreaded_fetch import report_unresponsive_urls, output_unresponsiveURLs
 
 TESTDATA_FILENAME = os.path.join('data', 'example.response.json')
@@ -17,7 +17,7 @@ class Test_URLs(unittest.TestCase):
     def setUp(self):
         print(f"\n{yellow}Setting up Tests...{end}")
         print("Getting the URLs...")
-        setup_data = URLs()
+        setup_data = TestData()
         self.urls = setup_data.extract_urls_from_data_source(False) # do not request JSON from online, use local file
         print(f"    Working with {len(self.urls)} URLs.")
         print("Getting responses...")
