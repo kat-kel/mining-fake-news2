@@ -25,13 +25,12 @@ class TestData:
                 data_source = json.load(config_file).get("data_source")
             return data_source
 
-    def extract_urls_from_data_source(self, to_request):
+    def extract_urls_from_data_source(self, to_request:bool):
         """ Gather URLs of fake news articles, to test the processing of 
         URLs already stored in DeFacto's JSON data format.
 
         Args:
-            to_request (bool): True value indicates the method should 
-            send a request to DeFacto's API and receive new data in JSON format.
+            to_request (bool): True value indicates the method should send a request to DeFacto's API and receive new data in JSON format.
 
         Returns:
             list: list of URLs to fake news articles

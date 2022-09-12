@@ -3,7 +3,7 @@ import os
 import tracemalloc
 
 from configure_data import TestData
-from src_multithreaded_fetch import get_ural_result_object_from_fetched_urls, report_unresponsive_urls, output_unresponsiveURLs
+from src_multithreaded_fetch import get_ural_result_object_from_fetched_urls, output_fetched_ural_data
 
 TESTDATA_FILENAME = os.path.join('data', 'example.response.json')
 MINIMUM_SUCCESS_RATE = 0.98
@@ -23,16 +23,10 @@ class Test_URL_Response(unittest.TestCase):
         print("Getting responses...")
         self.fetch_results = get_ural_result_object_from_fetched_urls(self.urls)
 
-    def test_unresponsive_urls(self):
-        message = f"Testing the filtering of unresponsive URLs..."
+    def test_write_fetched_ural_data(self):
+        message = f"Generating a new output file of all fetched URAL data..."
         print(f"\n{yellow}{message}{end}")
-        unresponsive_urls = report_unresponsive_urls(self.fetch_results)
-        print(f"{green}Success{end}")
-
-        message = f"Generating a new output file of unresponsive URLs..."
-        print(f"\n{yellow}{message}{end}")
-        self.assertIsInstance(self.fetch_results, list)
-        output_unresponsiveURLs(unresponsive_urls)
+        output_fetched_ural_data(self.fetch_results)
         print(f"{green}Success{end}")
 
     
