@@ -22,7 +22,7 @@ class Test_Request(unittest.TestCase):
         print(f"\n{yellow}Setting up Tests...{end}")
         print("Getting data...")
         setup_data = URLs()
-        self.source = setup_data.get_source()
+        self.source = setup_data.get_data_source_url_from_config()
     
     @unittest.skipIf(no_access,"skip")
     def setUp(self):

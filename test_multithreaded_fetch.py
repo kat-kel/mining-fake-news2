@@ -18,7 +18,7 @@ class Test_URLs(unittest.TestCase):
         print(f"\n{yellow}Setting up Tests...{end}")
         print("Getting the URLs...")
         setup_data = URLs()
-        self.urls = setup_data.get_urls(False) # do not request JSON from online, use local file
+        self.urls = setup_data.extract_urls_from_data_source(False) # do not request JSON from online, use local file
         print(f"    Working with {len(self.urls)} URLs.")
         print("Getting responses...")
         self.unresponsive_urls = report_unresponsive_urls(self.urls)
