@@ -12,7 +12,7 @@ green = "\033[0;32m"
 end = "\033[0m"
 
 
-class Test_URLs(unittest.TestCase):
+class Test_URL_Response(unittest.TestCase):
 
     def setUp(self):
         print(f"\n{yellow}Setting up Tests...{end}")
