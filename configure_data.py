@@ -1,8 +1,6 @@
-import ast
 import csv
 import json
 import os
-from collections import namedtuple
 
 from src_data_collect import clean_urls, collect_urls, extract_url
 
@@ -10,12 +8,14 @@ PRIVATE_CONFIG_FILENAME = "private.config.json"
 PUBLIC_TESTDATA_FILENAME = os.path.join('data', 'example.response.json')
 PRIVATE_TESTDATA_FILENAME = os.path.join('data', 'private.response.json')
 SMALL_URL_TEST_BATCH = os.path.join('data', 'example.urls.csv')
+LARGE_URL_TEST_BATCH = os.path.join('data', 'private.urls.csv')
 
 class TestData:
     has_public_testdata = os.path.isfile(PUBLIC_TESTDATA_FILENAME)
     has_private_config = os.path.isfile(PRIVATE_CONFIG_FILENAME)
     has_private_testdata = os.path.isfile(PRIVATE_TESTDATA_FILENAME)
     has_small_url_test_batch = os.path.isfile(SMALL_URL_TEST_BATCH)
+    has_large_url_test_batch = os.path.isfile(LARGE_URL_TEST_BATCH)
 
     def get_data_source_url_from_config(self):
         """ Retrieve URL to the DeFacto data source, to test 
@@ -55,9 +55,16 @@ class TestData:
             raise OSError("JSON test data was not found.")
         return self.urls
     
-    def extract_urls_from_test_batch(self):
-        if self.has_small_url_test_batch:
-            with open(SMALL_URL_TEST_BATCH, "r", encoding="utf8") as f:
+    def extract_urls_from_test_batch(self, batch):
+        if batch == "small" and self.has_small_url_test_batch:
+            batch = SMALL_URL_TEST_BATCH
+        elif batch == "large" and self.has_large_url_test_batch:
+            batch = LARGE_URL_TEST_BATCH
+        else:
+            batch = None
+            raise OSError("Sample of URLs was not found.")
+        if batch:
+            with open(batch, "r", encoding="utf8") as f:
                 reader = csv.reader(f)
                 return [item for sublist in list(reader) 
                         for item in sublist]

@@ -1,10 +1,8 @@
-from collections import Counter
-import csv
-
 from configure_data import TestData
 from src_data_collect import collect_urls
 from src_multithreaded_fetch import get_fetch_result_object
 from src_parse_articles import trafilatura_extraction_from_minet_meta
+import os
 
 
 # Open and parse the JSON data from De Facto
@@ -17,15 +15,12 @@ else:
     urls = TestData().extract_urls_from_test_batch(False)
 
 # Fetch result objects from the URLs using Minet's multithreaded-fetch
-result_objects = get_fetch_result_object(urls)
+fetch_result_objects = get_fetch_result_object(urls)
 
-static_domains = [obj.domain for obj in result_objects]
+# Extract text from the result objects using Trafilatura
+parsed_fetch_results = trafilatura_extraction_from_minet_meta(fetch_result_objects)
 
-count = dict(Counter(static_domains).most_common())
-
-with open("data/test_domain_count.csv", "w") as f:
-    writer = csv.writer(f)
-    writer.writerow(["domain", "count"])
-    for key,value in count.items():
-        writer.writerow([key,value])
-    
+#Output text
+for i, obj in enumerate(parsed_fetch_results):
+    with open (os.path.join("data", "text", f"{i}{obj.FetchResult.domain}.txt"), "w") as f:
+        f.write(obj.text)
