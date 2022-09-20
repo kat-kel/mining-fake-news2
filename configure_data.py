@@ -2,13 +2,9 @@ import csv
 import json
 import os
 
+from CONSTANTS import PRIVATE_CONFIG_FILENAME, PUBLIC_TESTDATA_FILENAME, PRIVATE_TESTDATA_FILENAME, SMALL_URL_TEST_BATCH, LARGE_URL_TEST_BATCH
 from src_data_collect import clean_urls, collect_urls, extract_url
 
-PRIVATE_CONFIG_FILENAME = "private.config.json"
-PUBLIC_TESTDATA_FILENAME = os.path.join('data', 'example.response.json')
-PRIVATE_TESTDATA_FILENAME = os.path.join('data', 'private.response.json')
-SMALL_URL_TEST_BATCH = os.path.join('data', 'example.urls.csv')
-LARGE_URL_TEST_BATCH = os.path.join('data', 'private.urls.csv')
 
 class TestData:
     has_public_testdata = os.path.isfile(PUBLIC_TESTDATA_FILENAME)
