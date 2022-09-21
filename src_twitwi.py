@@ -5,6 +5,7 @@ from twitwi import TwitterWrapper, normalize_tweets_payload_v2
 from yaml.loader import SafeLoader
 
 from CONSTANTS import MINET_CONFG
+BATCH_SIZE = 50
 
 
 # --------------------------------------------------------#
@@ -18,7 +19,7 @@ def parse_config():
     return config["twitter"]
 
 
-# Get the user ID from within the twitter URL
+# Get the user ID from within one twitter URL
 def get_id(obj):
     pattern = re.compile(r"status\/([0-9]+)")
     result = re.search(pattern, obj.url)
@@ -54,8 +55,7 @@ def call_client(wrapper, ids):
 # --------------------------------------------------------#
 #     MAIN FUNCTION
 # --------------------------------------------------------#
-def get_tweet_text(result_objects):
-    output = []
+def get_tweet_text(result_objects, Output):
     config = parse_config()
 
     # Set up the wrapper with config details
@@ -69,13 +69,23 @@ def get_tweet_text(result_objects):
     )
     
     # Divide the tweets up in batches with a maxiumum length of 3
-    batches = divide_into_batches(result_objects, 3)
+    batches = divide_into_batches(result_objects, BATCH_SIZE)
     
-    # For each batch, call the client and add the results to output 
-    for batch in batches:
-        # Extract the ID from each tweet URL
-        # & string all the IDs together, separated by a comma (ex. "12355,53455")
-        ids = ",".join([get_id(obj) for obj in batch])
-        output.append(call_client(wrapper, ids))
-
-    return output
+    # For each batch, call the client and add the results to output
+    normalized_tweets = [
+        normalized_tweet for batch_of_normalized_tweets in
+        [   call_client(wrapper, ",".join( [get_id(obj) 
+                                            for obj in batch
+                                            ])) 
+            for batch in batches
+        ]
+        for normalized_tweet in batch_of_normalized_tweets
+    ]
+    
+    # Return an Output object with all the data from the input FetchResult 
+    # along with the text extracted from the normalized tweet
+    return [Output( FetchResult=result_objects[index], 
+                    text=normalized_tweets[index]["text"]
+                )
+            for index in range(len(result_objects))
+    ]

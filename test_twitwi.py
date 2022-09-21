@@ -1,12 +1,10 @@
 import unittest
-import os
 import tracemalloc
 
 from configure_data import TestData
 from src_multithreaded_fetch import get_fetch_result_object
 from src_parse_articles import twitter_extraction_from_minet_meta, clean_fetch_results
 
-TESTDATA_FILENAME = os.path.join('data', 'example.response.json')
 yellow = "\033[1;33m"
 green = "\033[0;32m"
 end = "\033[0m"
@@ -25,6 +23,9 @@ class Test_twitwi_extract(unittest.TestCase):
         result_objects = get_fetch_result_object(self.urls)
         cleaned_results = clean_fetch_results(result_objects)
         output = twitter_extraction_from_minet_meta(cleaned_results)
+        self.assertIsInstance(output, list)
+        if len(output) > 0:
+            self.assertIsInstance(output[0].text, str)
         print(f"{green}Success{end}")
         
     
