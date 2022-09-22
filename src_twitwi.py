@@ -28,11 +28,11 @@ def get_id(obj):
 
 
 # Divide the ResultObjects into batches
-def divide_into_batches(all_results, batch_size):
+def divide_into_batches(all_fetch_results, batch_size):
     return [
-        all_results[x:x+batch_size] 
+        all_fetch_results[x:x+batch_size] 
         for x 
-        in range(0, len(all_results), batch_size)
+        in range(0, len(all_fetch_results), batch_size)
     ]
 
 
@@ -55,7 +55,7 @@ def call_client(wrapper, ids):
 # --------------------------------------------------------#
 #     MAIN FUNCTION
 # --------------------------------------------------------#
-def get_tweet_text(result_objects, Output):
+def get_tweet_text(fetch_objects, Output):
     config = parse_config()
 
     # Set up the wrapper with config details
@@ -69,7 +69,7 @@ def get_tweet_text(result_objects, Output):
     )
     
     # Divide the tweets up in batches with a maxiumum length of 3
-    batches = divide_into_batches(result_objects, BATCH_SIZE)
+    batches = divide_into_batches(fetch_objects, BATCH_SIZE)
     
     # For each batch, call the client and add the results to output
     normalized_tweets = [
@@ -84,8 +84,8 @@ def get_tweet_text(result_objects, Output):
     
     # Return an Output object with all the data from the input FetchResult 
     # along with the text extracted from the normalized tweet
-    return [Output( FetchResult=result_objects[index], 
+    return [Output( FetchResult=fetch_objects[index], 
                     text=normalized_tweets[index]["text"]
                 )
-            for index in range(len(result_objects))
+            for index in range(len(fetch_objects))
     ]

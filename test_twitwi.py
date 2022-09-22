@@ -20,8 +20,8 @@ class Test_twitwi_extract(unittest.TestCase):
     def test_extract_from_meta(self):
         message = f"Testing extraction of tweet content..."
         print(f"\n{yellow}{message}{ end}")
-        result_objects = get_fetch_result_object(self.urls)
-        cleaned_results = clean_fetch_results(result_objects)
+        fetch_objects = get_fetch_result_object(self.urls)
+        cleaned_results = clean_fetch_results(fetch_objects)
         output = twitter_extraction_from_minet_meta(cleaned_results)
         self.assertIsInstance(output, list)
         if len(output) > 0:
