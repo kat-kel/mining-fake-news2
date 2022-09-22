@@ -3,6 +3,7 @@ import trafilatura
 
 from CONSTANTS import MINET_CONFG
 from src_twitwi import get_tweet_text
+from src_crowdtangle import crowdtangle_extract_text
 
 
 domains_not_for_trafilatura = ["facebook.com", "twitter.com", "fb.watch", "youtube.com", "tiktok.com"]
@@ -27,8 +28,12 @@ def twitter_extraction_from_minet_meta(cleaned_results:list[namedtuple]):
         return get_tweet_text(tweet_objects, Output)
 
 
-def crowdtangle_extraction_from_minet_meta(clean_objects:list[namedtuple]):
-    pass
+def crowdtangle_extraction_from_minet_meta(cleaned_results:list[namedtuple]):
+    if not MINET_CONFG:
+        return
+    else:
+        facebook_objects = [obj for obj in cleaned_results if "facebook.com" == obj.domain]
+        return crowdtangle_extract_text(facebook_objects, Output)
     """
     cache : garder en mémoire les résultats de l'API
             créer dans le dossier de travail un dossier cache / .cache
