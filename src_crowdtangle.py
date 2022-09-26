@@ -68,7 +68,7 @@ def check_cache(client, url, cache):
 #     MAIN FUNCTION
 # --------------------------------------------------------#
 
-def crowdtangle_extract_text(fetch_objects, Output):
+def crowdtangle_processing(fetch_objects, Output):
     config = parse_config()
     client = CrowdTangleAPIClient(config["token"], config["rate_limit"])
     cache = open_cache()

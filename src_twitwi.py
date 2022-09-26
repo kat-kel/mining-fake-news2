@@ -1,3 +1,4 @@
+from collections import namedtuple
 import re
 
 import yaml
@@ -19,15 +20,7 @@ def parse_config():
     return config["twitter"]
 
 
-# Get the user ID from within one twitter URL
-def get_id(obj):
-    pattern = re.compile(r"status\/([0-9]+)")
-    result = re.search(pattern, obj.url)
-    if result.group(1):
-        return result.group(1)
-
-
-# Divide the ResultObjects into batches
+# Divide the FetchObject into batches
 def divide_into_batches(all_fetch_results, batch_size):
     return [
         all_fetch_results[x:x+batch_size] 
@@ -36,8 +29,35 @@ def divide_into_batches(all_fetch_results, batch_size):
     ]
 
 
+# Extract a FetchObject's ID from the URL
+def get_id(obj):
+    pattern = re.compile(r"status\/([0-9]+)")
+    result = re.search(pattern, obj.url)
+    if result and result.group(1):
+        return result.group(1)
+
+
+# Create a list of valid Tweet IDs
+def joined_ids(batch):
+    tweet_objects_with_id = []
+    for obj in batch:
+        id = (get_id(obj))
+        if id:
+            tweet_objects_with_id.append({"id": id, "FetchObject": obj})
+    return tweet_objects_with_id
+
+
+def combine_normalized_tweet_and_fetch_object(tweet_objects_with_id, normalized_tweets, Output):
+    output = []
+    for obj in tweet_objects_with_id:
+        matched_normalized_tweet = list(filter(lambda tweet: tweet["id"] == obj["id"], normalized_tweets))
+        if matched_normalized_tweet:
+            output.append(Output(FetchResult=obj["FetchObject"], text=matched_normalized_tweet[0]["text"]))
+    return output
+
+    
 # Send a list of ids to the Twitter API
-def call_client(wrapper, ids):
+def call_client(wrapper, batch, Output):
     # params taken from: https://github.com/python-twitter-tools/twitter/tree/api_v2
     v2_params={
         "tweet.fields": "attachments,author_id,context_annotations,conversation_id,created_at,entities,geo,id,in_reply_to_user_id,lang,public_metrics,possibly_sensitive,referenced_tweets,reply_settings,source,text,withheld",
@@ -45,17 +65,23 @@ def call_client(wrapper, ids):
         "media.fields": "duration_ms,height,media_key,preview_image_url,type,url,width,public_metrics",
         "expansions": "author_id,referenced_tweets.id,referenced_tweets.id.author_id,entities.mentions.username,attachments.poll_ids,attachments.media_keys,in_reply_to_user_id,geo.place_id"
         }
+    # Parse the ID for each tweet in the batch
+    tweet_objects_with_id = joined_ids(batch)
+    # Call the API for all the tweets in the batch 
     result = wrapper.call(["tweets"], 
-                            ids=ids, 
+                            ids=",".join(item["id"] for item in tweet_objects_with_id), 
                             params=v2_params)
+    # Normalize the tweets returned from the API
     normalized_tweets = normalize_tweets_payload_v2(result, collection_source="api")
-    return normalized_tweets
+    # By tweet ID, combine the normalized tweets with the original FetchResult object
+    fetch_objects_with_tweets = combine_normalized_tweet_and_fetch_object(tweet_objects_with_id, normalized_tweets, Output)
+    return fetch_objects_with_tweets
 
 
 # --------------------------------------------------------#
 #     MAIN FUNCTION
 # --------------------------------------------------------#
-def get_tweet_text(fetch_objects, Output):
+def twiwi_processing(fetch_objects, Output):
     config = parse_config()
 
     # Set up the wrapper with config details
@@ -70,22 +96,9 @@ def get_tweet_text(fetch_objects, Output):
     
     # Divide the tweets up in batches with a maxiumum length of 3
     batches = divide_into_batches(fetch_objects, BATCH_SIZE)
-    
-    # For each batch, call the client and add the results to output
-    normalized_tweets = [
-        normalized_tweet for batch_of_normalized_tweets in
-        [   call_client(wrapper, ",".join( [get_id(obj) 
-                                            for obj in batch
-                                            ])) 
-            for batch in batches
+
+    return [
+        item for batch in
+        [call_client(wrapper, batch, Output) for batch in batches]
+        for item in batch
         ]
-        for normalized_tweet in batch_of_normalized_tweets
-    ]
-    
-    # Return an Output object with all the data from the input FetchResult 
-    # along with the text extracted from the normalized tweet
-    return [Output( FetchResult=fetch_objects[index], 
-                    text=normalized_tweets[index]["text"]
-                )
-            for index in range(len(fetch_objects))
-    ]
