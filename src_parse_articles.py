@@ -34,9 +34,4 @@ def crowdtangle_extraction_from_minet_meta(cleaned_results:list[namedtuple]):
     else:
         facebook_objects = [obj for obj in cleaned_results if "facebook.com" == obj.domain]
         return crowdtangle_extract_text(facebook_objects, Output)
-    """
-    cache : garder en mémoire les résultats de l'API
-            créer dans le dossier de travail un dossier cache / .cache
-            dans lequel, stocker les résultats de chaque appel dans un fichier text
-            md5() --> python lib. hashlib
-    """
+        
