@@ -2,8 +2,18 @@ import csv
 import json
 import os
 
-from CONSTANTS import PRIVATE_CONFIG_FILENAME, PUBLIC_TESTDATA_FILENAME, PRIVATE_TESTDATA_FILENAME, SMALL_URL_TEST_BATCH, LARGE_URL_TEST_BATCH
-from src_data_collect import clean_urls, collect_urls, extract_url
+from CONSTANTS import (
+    PRIVATE_CONFIG_FILENAME, 
+    PUBLIC_TESTDATA_FILENAME, 
+    PRIVATE_TESTDATA_FILENAME, 
+    SMALL_URL_TEST_BATCH, 
+    LARGE_URL_TEST_BATCH
+)
+from src_data_collect import (
+    clean_urls, 
+    collect_urls, 
+    extract_url
+)
 
 
 class TestData:
@@ -14,8 +24,7 @@ class TestData:
     has_large_url_test_batch = os.path.isfile(LARGE_URL_TEST_BATCH)
 
     def get_data_source_url_from_config(self):
-        """ Retrieve URL to the DeFacto data source, to test 
-        the collect of fake news claims directly from DeFacto's site.
+        """ Call the API to De Facto's database and retrieve a JSON response.
 
         Returns:
             string: the URL leading to the data source
@@ -27,11 +36,10 @@ class TestData:
             return data_source
 
     def extract_urls_from_data_source(self, to_request:bool):
-        """ Gather URLs of fake news articles, to test the processing of 
-        URLs already stored in DeFacto's JSON data format.
+        """ Parse URLs from the JSON format of De Facto's data.
 
         Args:
-            to_request (bool): True value indicates the method should send a request to DeFacto's API and receive new data in JSON format.
+            to_request (bool): True value indicates the method should send a request to De Facto's API and receive new data in JSON format.
 
         Returns:
             list: list of URLs to fake news articles
@@ -52,6 +60,14 @@ class TestData:
         return self.urls
     
     def extract_urls_from_test_batch(self, batch):
+        """ Parse URLs from a static CSV file of test data.
+
+        Args:
+            batch (str): "large" parses a large file of private data from De Facto, "small" parses a small file of public example data.
+
+        Returns:
+            list: list of URLs to fake news articles
+        """
         if batch == "small" and self.has_small_url_test_batch:
             batch = SMALL_URL_TEST_BATCH
         elif batch == "large" and self.has_large_url_test_batch:

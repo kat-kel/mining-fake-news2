@@ -13,7 +13,7 @@ source = TestData().get_data_source_url_from_config()
 if source:
     urls = collect_urls(source)
 else:
-    urls = TestData().extract_urls_from_test_batch(False)
+    urls = TestData().extract_urls_from_test_batch("small")
 
 # Fetch result objects from the URLs using Minet's multithreaded-fetch
 fetch_result_objects = get_fetch_result_object(urls)

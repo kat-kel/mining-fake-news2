@@ -1,8 +1,10 @@
-from collections import namedtuple
 import re
 
 import yaml
-from twitwi import TwitterWrapper, normalize_tweets_payload_v2
+from twitwi import (
+    TwitterWrapper, 
+    normalize_tweets_payload_v2
+)
 from yaml.loader import SafeLoader
 
 from CONSTANTS import MINET_CONFG

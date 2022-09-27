@@ -3,7 +3,10 @@ import tracemalloc
 
 from configure_data import TestData
 from src_multithreaded_fetch import get_fetch_result_object
-from src_parse_articles import clean_fetch_results, crowdtangle_extraction_from_minet_meta
+from src_parse_articles import (
+    clean_fetch_results, 
+    crowdtangle_extraction_from_minet_meta
+)
 
 yellow = "\033[1;33m"
 green = "\033[0;32m"

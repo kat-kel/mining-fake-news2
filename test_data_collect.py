@@ -3,7 +3,12 @@ import unittest
 from ural import get_domain_name
 import os
 
-from src_data_collect import request_data, load_data, extract_url, clean_urls
+from src_data_collect import (
+    request_data, 
+    load_data, 
+    extract_url, 
+    clean_urls
+)
 from configure_data import TestData
 
 TESTDATA_FILENAME = os.path.join('data', 'example.response.json')
