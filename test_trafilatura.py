@@ -28,7 +28,8 @@ class Test_URL_Response(unittest.TestCase):
         result_objects = get_fetch_result_object(self.urls)
         cleaned_results = clean_fetch_results(result_objects)
         output = trafilatura_extraction_from_minet_meta(cleaned_results)
-        print(output)
+        if len(output) > 0:
+            self.assertIsInstance(output[0].text, str)
         print(f"{green}Success{end}")
         
     

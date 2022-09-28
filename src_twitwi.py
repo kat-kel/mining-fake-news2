@@ -7,6 +7,7 @@ from twitwi import (
 )
 from yaml.loader import SafeLoader
 
+from src_parsed_text_result import ParsedTextResult
 from CONSTANTS import MINET_CONFG
 BATCH_SIZE = 50
 
@@ -49,17 +50,20 @@ def joined_ids(batch):
     return tweet_objects_with_id
 
 
-def combine_normalized_tweet_and_fetch_object(tweet_objects_with_id, normalized_tweets, Output):
+def combine_normalized_tweet_and_fetch_object(tweet_objects_with_id, normalized_tweets):
     output = []
     for obj in tweet_objects_with_id:
         matched_normalized_tweet = list(filter(lambda tweet: tweet["id"] == obj["id"], normalized_tweets))
         if matched_normalized_tweet:
-            output.append(Output(FetchResult=obj["FetchObject"], text=matched_normalized_tweet[0]["text"]))
+            result = ParsedTextResult()
+            result.FetchResult = obj["FetchObject"]
+            result.text = matched_normalized_tweet[0]["text"]
+            output.append(result)
     return output
 
     
 # Send a list of ids to the Twitter API
-def call_client(wrapper, batch, Output):
+def call_client(wrapper, batch):
     # params taken from: https://github.com/python-twitter-tools/twitter/tree/api_v2
     v2_params={
         "tweet.fields": "attachments,author_id,context_annotations,conversation_id,created_at,entities,geo,id,in_reply_to_user_id,lang,public_metrics,possibly_sensitive,referenced_tweets,reply_settings,source,text,withheld",
@@ -76,14 +80,14 @@ def call_client(wrapper, batch, Output):
     # Normalize the tweets returned from the API
     normalized_tweets = normalize_tweets_payload_v2(result, collection_source="api")
     # By tweet ID, combine the normalized tweets with the original FetchResult object
-    fetch_objects_with_tweets = combine_normalized_tweet_and_fetch_object(tweet_objects_with_id, normalized_tweets, Output)
+    fetch_objects_with_tweets = combine_normalized_tweet_and_fetch_object(tweet_objects_with_id, normalized_tweets)
     return fetch_objects_with_tweets
 
 
 # --------------------------------------------------------#
 #     MAIN FUNCTION
 # --------------------------------------------------------#
-def twiwi_processing(fetch_objects, Output):
+def twiwi_processing(fetch_objects):
     config = parse_config()
 
     # Set up the wrapper with config details
@@ -101,6 +105,6 @@ def twiwi_processing(fetch_objects, Output):
 
     return [
         item for batch in
-        [call_client(wrapper, batch, Output) for batch in batches]
+        [call_client(wrapper, batch) for batch in batches]
         for item in batch
         ]
