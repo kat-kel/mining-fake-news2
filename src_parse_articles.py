@@ -34,7 +34,7 @@ def crowdtangle_extraction_from_minet_meta(cleaned_results:list[namedtuple]):
         return
     else:
         facebook_objects = [obj for obj in cleaned_results if "facebook.com" == obj.domain]
-        return crowdtangle_processing(facebook_objects, Output)
+        return crowdtangle_processing(facebook_objects)
 
 
 def parse_text(raw_data:list[namedtuple]):

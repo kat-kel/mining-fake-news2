@@ -7,7 +7,8 @@ from CONSTANTS import (
     PUBLIC_TESTDATA_FILENAME, 
     PRIVATE_TESTDATA_FILENAME, 
     SMALL_URL_TEST_BATCH, 
-    LARGE_URL_TEST_BATCH
+    LARGE_URL_TEST_BATCH,
+    PARSED_TEXT_FILE
 )
 from src_data_collect import (
     clean_urls, 
@@ -22,6 +23,7 @@ class TestData:
     has_private_testdata = os.path.isfile(PRIVATE_TESTDATA_FILENAME)
     has_small_url_test_batch = os.path.isfile(SMALL_URL_TEST_BATCH)
     has_large_url_test_batch = os.path.isfile(LARGE_URL_TEST_BATCH)
+    has_parsed_text_file = os.path.isfile(PARSED_TEXT_FILE)
 
     def get_data_source_url_from_config(self):
         """ Call the API to De Facto's database and retrieve a JSON response.
@@ -80,3 +82,10 @@ class TestData:
                 reader = csv.reader(f)
                 return [item for sublist in list(reader) 
                         for item in sublist]
+    
+    def parse_extracted_text(self):
+        if self.has_parsed_text_file:
+            with open(PARSED_TEXT_FILE, "r") as csvfile:
+                return [row for row in csv.DictReader(csvfile)]
+        else:
+            raise OSError("The file of extracted text was not found.")

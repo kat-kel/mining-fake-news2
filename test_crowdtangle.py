@@ -13,7 +13,7 @@ green = "\033[0;32m"
 end = "\033[0m"
 
 
-class Test_twitwi_extract(unittest.TestCase):
+class Test_CrowdTangle_extract(unittest.TestCase):
 
     def setUp(self):
         print(f"\n{yellow}Setting up Tests...{end}")
