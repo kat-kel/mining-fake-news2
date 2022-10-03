@@ -5,7 +5,10 @@ from hashlib import md5
 import minet.facebook as facebook
 import yaml
 from minet.crowdtangle.client import CrowdTangleAPIClient
-from minet.crowdtangle.exceptions import CrowdTanglePostNotFound
+from minet.crowdtangle.exceptions import (
+    CrowdTanglePostNotFound,
+    CrowdTangleInvalidRequestError
+)
 from yaml.loader import SafeLoader
 
 from CONSTANTS import (
@@ -62,9 +65,13 @@ def call_client(client, url):
     if post_id:
         try:
             post = client.post(post_id)
-            return post.message    
+            return post.message
+        # Exception to catch if a searched post isn't followed by CrowdTangle.
         except CrowdTanglePostNotFound as error:
             print(repr(error))
+        # Exception to catch if searched post's ID is confounded with an Instagram post / not in the Facebook platform.
+        except CrowdTangleInvalidRequestError as error:
+            print(str(error))
 
 
 # --------------------------------------------------------#
