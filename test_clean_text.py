@@ -1,4 +1,3 @@
-import tracemalloc
 import unittest
 
 from configure_data import TestData
@@ -23,13 +22,9 @@ class Test_clean_extracted_text(unittest.TestCase):
     def test_split_sentences(self):
         valid_texts = remove_invalid_text(self.text)
         sentences = split_sentences(valid_texts)
-        for i, sentence in enumerate(sentences):
-            if i < 5:
-                print(sentence)
-
+        self.assertIsInstance(sentences[0], list)
 
 
 
 if __name__ == "__main__":
-    tracemalloc.start()
     unittest.main()
